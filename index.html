@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyBuddha用户协议</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .cyber-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 2.5em;
+            font-weight: 300;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            color: #00f3ff;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+        
+        .subtitle {
+            color: #aaa;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+        }
+        
+        .agreement-box {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .agreement-title {
+            color: #00f3ff;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .agreement-content {
+            line-height: 1.6;
+            color: #ccc;
+        }
+        
+        .agreement-content p {
+            margin-bottom: 15px;
+        }
+        
+        .agreement-content ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .agreement-content li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            color: #ff3366;
+            font-weight: bold;
+        }
+        
+        .consent-section {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 51, 102, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            margin-bottom: 30px;
+        }
+        
+        .consent-text {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        
+        .agree-button {
+            background: linear-gradient(45deg, #ff3366, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+        }
+        
+        .agree-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 51, 102, 0.6);
+        }
+        
+        .notification-panel {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #ff3366;
+            border-radius: 10px;
+            overflow: hidden;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.3);
+        }
+        
+        .notification-header {
+            background: linear-gradient(45deg, #ff3366, #ff6b6b);
+            padding: 10px 15px;
+            font-weight: bold;
+        }
+        
+        .notification-content {
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .notification-item {
+            padding: 10px;
+            border-bottom: 1px solid #333;
+            color: #ccc;
+            font-size: 0.9em;
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cyber-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+        }
+        
+        .glitch {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 6em;
+            color: rgba(0, 243, 255, 0.1);
+            z-index: 0;
+            animation: glitch 10s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { opacity: 0.05; }
+            50% { opacity: 0.1; }
+        }
+        
+        /* 数据销售动画 */
+        .data-sale {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .sale-message {
+            font-size: 2em;
+            color: #ff3366;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+        
+        .price-tag {
+            font-size: 3em;
+            color: #00f3ff;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 40px;
+            border: 3px solid #ff3366;
+            border-radius: 10px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    <div class="glitch">监控资本主义</div>
+    
+    <div class="cyber-container">
+        <div class="header">
+            <div class="logo">Digital Relics</div>
+            <div class="subtitle">数字舍利</div>
+        </div>
+        
+        <div class="agreement-box">
+            <h2 class="agreement-title">用户数据许可协议</h2>
+            <div class="agreement-content">
+                <p>欢迎使用Digital Relics服务。请仔细阅读以下条款，您对本协议的接受意味着您同意<span class="highlight">永久放弃对个人数据的所有权</span>。</p>
+                
+                <p><strong>1. 数据收集范围</strong></p>
+                <ul>
+                    <li>设备信息（型号、操作系统、唯一标识符）</li>
+                    <li>位置数据（实时位置、常去地点、移动轨迹）</li>
+                    <li>行为数据（点击模式、停留时间、社交关系）</li>
+                    <li>生物数据（通过摄像头和麦克风收集的面部特征、声音特征）</li>
+                    <li>心理特征（通过互动模式推断的兴趣、偏好、情绪状态）</li>
+                </ul>
+                
+                <p><strong>2. 数据使用方式</strong></p>
+                <p>您同意我们：</p>
+                <ul>
+                    <li>使用您的数据训练预测模型，预判您的未来行为</li>
+                    <li>将数据打包出售给第三方广告商、保险公司、金融机构</li>
+                    <li>使用您的数据影响您的决策，优化商业转化率</li>
+                    <li>永久保留数据，即使您停止使用服务</li>
+                </ul>
+                
+                <p><strong>3. 隐私权声明</strong></p>
+                <p>我们承诺"保护"您的隐私——这意味着我们将<span class="highlight">最大化数据价值的同时最小化您的知情权</span>。</p>
+                
+                <p>本协议共有8,742字，但您只需要知道：<span class="highlight">点击"同意"即表示您理解并接受您已成为商品</span>。</p>
+            </div>
+        </div>
+        
+        <div class="consent-section">
+            <div class="consent-text">
+                您的注意力是我们最宝贵的资源<br>
+                您的数据是我们最畅销的商品
+            </div>
+            <button class="agree-button" id="agreeBtn">同意并献上我的数据以换取便利</button>
+        </div>
+        
+        <div class="footer-note">
+            <p style="text-align: center; color: #666; font-size: 0.8em; margin-top: 50px;">
+                第6,894,321,047号商品正在生成中...
+            </p>
+        </div>
+    </div>
+    
+    <!-- 信息轰炸通知面板 -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">实时数据采集通知</div>
+        <div class="notification-content" id="notificationContent">
+            <!-- 通知会动态添加到这里 -->
+        </div>
+    </div>
+    
+    <!-- 数据销售动画 -->
+    <div class="data-sale" id="dataSale">
+        <div class="sale-message">您的数据包正在被拍卖...</div>
+        <div class="price-tag">$<span id="priceValue">0</span>.00</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const agreeBtn = document.getElementById('agreeBtn');
+            const notificationPanel = document.getElementById('notificationPanel');
+            const notificationContent = document.getElementById('notificationContent');
+            const dataSale = document.getElementById('dataSale');
+            const priceValue = document.getElementById('priceValue');
+            
+            // 模拟数据
+            const fakeData = {
+                name: ['用户', '消费者', '数据源', '商品','信徒','数据体'],
+                actions: ['浏览了', '点击了', '搜索了', '关注了', '购买了','供奉了'],
+                items: ['奢侈品广告', '政治新闻', '心理健康测试', '减肥产品', '投资课程', '极端内容','数字舍利','算法佛经'],
+                companies: ['MetaCorp', 'DataMine Inc.', 'AdVantage LLC', 'Predictive Behaviors Ltd.','禅数科技','轮回云计算']
+            };
+            
+            // 生成随机通知
+            function generateNotification() {
+                const name = fakeData.name[Math.floor(Math.random() * fakeData.name.length)];
+                const action = fakeData.actions[Math.floor(Math.random() * fakeData.actions.length)];
+                const item = fakeData.items[Math.floor(Math.random() * fakeData.items.length)];
+                const company = fakeData.companies[Math.floor(Math.random() * fakeData.companies.length)];
+                
+                const timestamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                
+                return `<div class="notification-item">
+                    <strong>[${timestamp}]</strong><br>
+                    ${name} ${action} ${item}<br>
+                    <em>数据已售至: ${company}</em>
+                </div>`;
+            }
+            
+            // 同意按钮点击事件
+            agreeBtn.addEventListener('click', function() {
+                // 发送信号到大屏播放视频（通过本地服务器）
+                fetch('http://localhost:3000/trigger', {
+                    method: 'POST',
+                    mode: 'no-cors'
+                }).catch(() => {
+                    // 忽略错误，这只是为了触发本地播放
+                });
+                
+                // 显示通知面板
+                notificationPanel.style.display = 'block';
+                
+                // 开始信息轰炸
+                let notificationCount = 0;
+                const notificationInterval = setInterval(() => {
+                    notificationContent.insertAdjacentHTML('afterbegin', generateNotification());
+                    notificationCount++;
+                    
+                    // 每5条通知震动一次
+                    if (notificationCount % 5 === 0 && 'vibrate' in navigator) {
+                        navigator.vibrate(200);
+                    }
+                    
+                    // 20秒后停止通知，显示数据销售动画
+                    if (notificationCount > 30) {
+                        clearInterval(notificationInterval);
+                        
+                        // 显示数据销售动画
+                        setTimeout(() => {
+                            dataSale.style.display = 'flex';
+                            
+                            // 价格递增动画
+                            let price = 0;
+                            const priceInterval = setInterval(() => {
+                                price += Math.random() * 50;
+                                if (price > 500) {
+                                    price = 500;
+                                    clearInterval(priceInterval);
+                                    
+                                    // 3秒后显示结束信息
+                                    setTimeout(() => {
+                                        dataSale.innerHTML = `
+                                            <div style="text-align: center;">
+                                                <div style="font-size: 2em; color: #00f3ff; margin-bottom: 20px;">
+                                                    交易完成！
+                                                </div>
+                                                <div style="color: #ccc; margin-bottom: 30px;">
+                                                    您的数据包已以 $${price.toFixed(2)} 售出
+                                                </div>
+                                                <div style="color: #666; font-size: 0.9em;">
+                                                    感谢参与监控资本主义经济循环<br>
+                                                    您是今日第${Math.floor(Math.random()*1000)}位被商品化的用户
+                                                </div>
+                                                <div style="margin-top: 40px; color: #ff3366; font-size: 0.8em;">
+                                                    交互结束 · 请放下手机
+                                                </div>
+                                            </div>
+                                        `;
+                                    }, 2000);
+                                }
+                                priceValue.textContent = price.toFixed(2);
+                            }, 100);
+                        }, 1000);
+                    }
+                }, 300);
+                
+                // 修改按钮文本和禁用
+                agreeBtn.textContent = '数据采集中...';
+                agreeBtn.disabled = true;
+                agreeBtn.style.background = 'linear-gradient(45deg, #666, #999)';
+            });
+            
+            // 添加一些初始动画效果
+            const glitch = document.querySelector('.glitch');
+            setInterval(() => {
+                glitch.style.transform = `translate(-50%, -50%) translate(${Math.random()*4-2}px, ${Math.random()*4-2}px)`;
+            }, 100);
+        });
+    </script>
+</body>
+</html>
