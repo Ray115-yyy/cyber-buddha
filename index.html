@@ -330,7 +330,7 @@
             // 同意按钮点击事件
             agreeBtn.addEventListener('click', function() {
                 // 发送信号到大屏播放视频（通过本地服务器）
-                fetch('http://192.168.0.100:3000/trigger', {
+                fetch('http://192.168.1.14:3000/trigger', {
                     method: 'POST',
                     mode: 'no-cors'
                 }).catch(() => {
@@ -410,4 +410,5 @@
 </body>
 
 </html>
+
 
