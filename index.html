@@ -328,14 +328,14 @@
             }
             
             // 同意按钮点击事件
+// 同意按钮点击事件
+            // 同意按钮点击事件
             agreeBtn.addEventListener('click', function() {
-                // 发送信号到大屏播放视频（通过本地服务器）
-                fetch('http://192.168.1.14:3000/trigger', {
-                    method: 'POST',
-                    mode: 'no-cors'
-                }).catch(() => {
-                    // 忽略错误，这只是为了触发本地播放
-                });
+                
+                // 禁用按钮，防止重复点击
+                agreeBtn.textContent = '数据采集中...';
+                agreeBtn.disabled = true;
+                agreeBtn.style.background = 'linear-gradient(45deg, #666, #999)';
                 
                 // 显示通知面板
                 notificationPanel.style.display = 'block';
@@ -351,56 +351,44 @@
                         navigator.vibrate(200);
                     }
                     
-                    // 20秒后停止通知，显示数据销售动画
+                    // 信息轰炸结束后（30次），显示"正在拍卖"动画并开始价格递增
                     if (notificationCount > 30) {
-                        clearInterval(notificationInterval);
+                        clearInterval(notificationInterval); // 停止信息轰炸
                         
-                        // 显示数据销售动画
-                        setTimeout(() => {
-                            dataSale.style.display = 'flex';
-                            
-                            // 价格递增动画
-                            let price = 0;
-                            const priceInterval = setInterval(() => {
-                                price += Math.random() * 50;
-                                if (price > 500) {
-                                    price = 500;
-                                    clearInterval(priceInterval);
+                        // 显示"正在拍卖"的动画界面
+                        dataSale.style.display = 'flex';
+                        
+                        // 价格递增动画
+                        let currentPrice = 0;
+                        const finalPrice = 500; // 最终价格定为500
+                        const priceIncrement = finalPrice / 50; // 分50步完成，每步10块
+                        const priceInterval = setInterval(() => {
+                            currentPrice += priceIncrement;
+                            if (currentPrice >= finalPrice) {
+                                currentPrice = finalPrice; // 确保最终精确显示500
+                                clearInterval(priceInterval); // 停止价格递增
+                                
+                                // 价格到达顶峰后，自然过渡并跳转
+                                // 给观众约1秒时间看清最终价格
+                                setTimeout(() => {
+                                    // 首先让当前页面整体淡出 (添加淡出效果)
+                                    document.body.style.transition = 'opacity 1.2s ease';
+                                    document.body.style.opacity = '0';
                                     
-                                    // 3秒后显示结束信息
+                                    // 淡出动画完成后，跳转到本地触发页面
+                                    // !!! 重要：必须将下面的 192.168.1.14 换成你电脑的实际IP !!!
+                                    const localTriggerPage = 'http://192.168.1.14:8080/trigger_local.html';
                                     setTimeout(() => {
-                                        dataSale.innerHTML = `
-                                            <div style="text-align: center;">
-                                                <div style="font-size: 2em; color: #00f3ff; margin-bottom: 20px;">
-                                                    交易完成！
-                                                </div>
-                                                <div style="color: #ccc; margin-bottom: 30px;">
-                                                    您的数据包已以 $${price.toFixed(2)} 售出
-                                                </div>
-                                                <div style="color: #666; font-size: 0.9em;">
-                                                    感谢参与监控资本主义经济循环<br>
-                                                    您是今日第${Math.floor(Math.random()*1000)}位被商品化的用户
-                                                </div>
-                                                <div style="margin-top: 40px; color: #ff3366; font-size: 0.8em;">
-                                                    交互结束 · 请放下手机
-                                                </div>
-                                            </div>
-                                        `;
-                                    }, 2000);
-                                }
-                                priceValue.textContent = price.toFixed(2);
-                            }, 100);
-                        }, 1000);
+                                        window.location.href = localTriggerPage;
+                                    }, 1200); // 等待淡出动画完成
+                                }, 1000);
+                            }
+                            // 更新屏幕上显示的价格，保留两位小数
+                            priceValue.textContent = currentPrice.toFixed(2);
+                        }, 60); // 每60毫秒更新一次价格，整个动画约3秒 (60ms * 50步)
                     }
-                }, 300);
-                
-                // 修改按钮文本和禁用
-                agreeBtn.textContent = '数据采集中...';
-                agreeBtn.disabled = true;
-                agreeBtn.style.background = 'linear-gradient(45deg, #666, #999)';
-            });
-            
-            // 添加一些初始动画效果
+                }, 300); // 这是信息轰炸每条通知的间隔时间
+            });            // 添加一些初始动画效果
             const glitch = document.querySelector('.glitch');
             setInterval(() => {
                 glitch.style.transform = `translate(-50%, -50%) translate(${Math.random()*4-2}px, ${Math.random()*4-2}px)`;
@@ -408,7 +396,4 @@
         });
     </script>
 </body>
-
 </html>
-
-
