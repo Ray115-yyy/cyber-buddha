@@ -444,6 +444,18 @@
 // ========== 配置区域 ==========
 // 自动检测是文件协议还是HTTP协议，并选择合适的地址
 function getServerConfig() {
+    // 先检查URL参数中是否有指定的服务器IP
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramServer = urlParams.get('server');
+    
+    if (paramServer) {
+        console.log('调试信息 - 使用URL参数中的服务器IP:', paramServer);
+        return {
+            SERVER_URL: `http://${paramServer}:3000/trigger`,
+            SERVER_IP: paramServer
+        };
+    }
+    
     const protocol = window.location.protocol;
     const hostname = window.location.hostname;
     
@@ -452,8 +464,8 @@ function getServerConfig() {
     console.log('调试信息 - 完整URL:', window.location.href);
     
     // 如果是文件协议（file://）或者hostname为空，使用localhost
-    if (protocol === 'file:' || hostname === '') {
-        console.log('检测到文件协议，使用 localhost');
+    if (protocol === 'file:' || hostname === '' || hostname === 'localhost') {
+        console.log('检测到文件协议/本地主机，使用 localhost');
         return {
             SERVER_URL: 'http://localhost:3000/trigger',
             SERVER_IP: 'localhost'
@@ -463,12 +475,11 @@ function getServerConfig() {
     else {
         console.log('检测到HTTP协议，使用当前主机名');
         return {
-            SERVER_URL: `${protocol}//${hostname}:3000/trigger`,
+            SERVER_URL: `http://${hostname}:3000/trigger`,
             SERVER_IP: hostname
         };
     }
 }
-
 // 获取服务器配置
 const config = getServerConfig();
 const SERVER_URL = config.SERVER_URL;
@@ -1118,3 +1129,4 @@ async function sendTriggerRequest() {
         });
     </script></body>
 </html>
+
