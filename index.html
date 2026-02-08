@@ -371,17 +371,26 @@
                                 // 价格到达顶峰后，自然过渡并跳转
                                 // 给观众约1秒时间看清最终价格
                                 setTimeout(() => {
-                                    // 首先让当前页面整体淡出 (添加淡出效果)
-                                    document.body.style.transition = 'opacity 1.2s ease';
-                                    document.body.style.opacity = '0';
-                                    
-                                    // 淡出动画完成后，跳转到本地触发页面
-                                    // !!! 重要：必须将下面的 192.168.1.14 换成你电脑的实际IP !!!
-                                    const localTriggerPage = 'trigger_local.html';
-                                    setTimeout(() => {
-                                        window.location.href = localTriggerPage;
-                                    }, 1200); // 等待淡出动画完成
-                                }, 1000);
+    // 首先让当前页面整体淡出
+    document.body.style.transition = 'opacity 1.2s ease';
+    document.body.style.opacity = '0';
+    
+    // 获取当前页面的主机名（就是电脑IP）
+    const serverIP = window.location.hostname;
+    
+    // 如果是从文件协议访问，使用localhost
+    let triggerPage;
+    if (window.location.protocol === 'file:') {
+        triggerPage = 'trigger_local.html';
+    } else {
+        // 从HTTP协议访问，携带服务器IP参数
+        triggerPage = `trigger_local.html?server=${serverIP}`;
+    }
+    
+    setTimeout(() => {
+        window.location.href = triggerPage;
+    }, 1200);
+}, 1000);
                             }
                             // 更新屏幕上显示的价格，保留两位小数
                             priceValue.textContent = currentPrice.toFixed(2);
@@ -397,6 +406,7 @@
     </script>
 </body>
 </html>
+
 
 
 
